@@ -9,22 +9,22 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   // Iniciando por la entrada del proyecto
   // Haciendo referencia al archivo principal
-entry: "./src/index.js",
+  entry: './src/index.js',
   // En este output, es donde vamos a guardar los archivos resultantes cuando hagamos la configuracion
-output: {
+  output: {
     // La instancia resolve nos ayuda a detectar el directorio donde nos encontramos y el directorio donde vamos a guardar los archivos compilados
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
     // Filename nos pode un nombre al archivo compilado
-    filename: "bundle.js"
-},
+    filename: 'bundle.js',
+  },
   // Este elemento resulve las extensiones que vamos a utilizar
-resolve: {
-    extensions: [".js", ".jsx"]
-},
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   // Modulo con las reglas necesarias
-module: {
+  module: {
     rules: [
-    {
+      {
         // Regla principal
         // Identificacion de los archivos con una expresion regular
         test: /\.(js|jsx)$/,
@@ -32,41 +32,54 @@ module: {
         exclude: /node_modules/,
         // Utilizamos el loader de babel instalado
         use: {
-            loader: "babel-loader"
-        }
-    },
-    {
+          loader: 'babel-loader',
+        },
+      },
+      {
         // Regla para trabajar con los archivos html
         test: /\.html$/,
         // Utilizamos el loader de babel instalado
-        use: {
-            loader: "html-loader"
-        }
-    },
-    {
-      test: /\.(s*)css$/,
-      use:[
-        {
-          loader: MiniCssExtractPlugin.loader,
-        },
-        'css-loader',
-        'sass-loader'
-      ]
-    }
-    ]
-},
+        use: [
+          {
+            loader: 'html-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(s*)css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.(png|gif|jpg)$/,
+        use: [
+          {
+            'loader': 'file-loader',
+            options: {
+              name: 'assets/[hash].[ext]',
+            },
+          },
+        ],
+      },
+    ],
+  },
   // Se añaden los plugins que necesitamos
-plugins: [
+  plugins: [
   // pasamo un objeto con la configuracion que necesitamos
-    
+
     new HtmlWebpackPlugin({
       //Donde esta ubicado el template que tenemos
-    template: "./public/index.html",
-    filename: "./index.html"
+      template: './public/index.html',
+      filename: './index.html',
     }),
     //referencia para trabajar webpack con
     new MiniCssExtractPlugin({
-      filename: 'assets/[name].css'
+      filename: 'assets/[name].css',
     }),
-]
+  ],
 };
