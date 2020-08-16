@@ -2,12 +2,15 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { loginRequest } from '../actions/index';
 import '../assets/styles/components/Login.scss';
+
 import googleIcon from '../assets/static/google-icon.png';
 import twitterIcon from '../assets/static/twitter-icon.png';
 //manejar informacion  de formulario
-const Login = () => {
+const Login = (props) => {
   const [form, setValues] = useState({
     email: '',
   });
@@ -20,10 +23,13 @@ const Login = () => {
   };
 
   const handleSubmit = (event) => {
+    //envia los datos al estado
     event.preventDefault();
-    console.log(form);
+    props.loginRequest(form);
+    //console.log(form);
+    props.history.push('/');
   };
-//manejar informacion  de formulario
+  //manejar informacion  de formulario
   return (
     <section className='login'>
       <section className='login__container'>
@@ -66,5 +72,11 @@ const Login = () => {
     </section>
   );
 };
-export default Login;
+
+const mapDispatchToProps = {
+  loginRequest,
+};
+
+//export default Login;
+export default connect(null, mapDispatchToProps)(Login);
 
