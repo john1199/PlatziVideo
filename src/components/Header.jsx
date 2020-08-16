@@ -1,17 +1,26 @@
 import React from 'react';
+//provee el estado al componente
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import propTypes from 'prop-types';
 import gravatar from '../utils/gravatar';
+import { logoutRequest } from '../actions/index';
 import '../assets/styles/components/Header.scss';
 
 import logo from '../assets/static/logo-platzi-video-BW2.png';
 import userIcon from '../assets/static/user-icon.png';
+
 
 const Header = (props) => {
   //user en vez de props.user
   const { user } = props;
   //validar si existen usuarios
   const hasUser = Object.keys(user).length > 0;
+
+  const handleLogout = () => {
+    //se "reincia" el estado
+    props.logoutRequest({});
+  };
   return (
     <header className='header'>
       {/*evita ver la recarga de la pagina*/}
@@ -26,28 +35,39 @@ const Header = (props) => {
           <p>Perfil</p>
         </div>
         <ul>
-          <li>
-            {/*<a href='/'>Cuenta</a>*/}
-            <Link to='/'>
-              Cuenta
-            </Link>
-          </li>
-          <li>
-            {/*<a href='/'>Cerrar Sesión</a>*/}
-            <Link to='/login'>
-              Iniciar Sesión
-            </Link>
-          </li>
+          {hasUser ? (
+            <li>
+              <a href='/'>{user.name}</a>
+            </li>
+          ) :
+            null }
+          {hasUser ? (
+            <li>
+              <a href='#logout' onClick={handleLogout}>Cerrar Sesión</a>
+            </li>
+          ) : (
+            <li>
+              <Link to='/login'>
+                Iniciar Sesión
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </header>
   );
+};
+Header.propTypes = {
+  user: propTypes.object,
+  logoutRequest: propTypes.func,
 };
 const mapStateToProps = (state) => {
   return {
     user: state.user,
   };
 };
-
+const mapDispatchToProps = {
+  logoutRequest,
+};
 //export default Header;
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
