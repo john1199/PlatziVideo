@@ -1,4 +1,5 @@
-import React, { useEffect, useReducer } from 'react';
+/* eslint-disable react/destructuring-assignment */
+import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 //import { Redirect } from 'react-router-dom';
 import NotFound from './NotFound';
@@ -8,8 +9,8 @@ import '../assets/styles/components/Player.scss';
 const Player = (props) => {
   const { id } = props.match.params;
   const hasPlaying = Object.keys(props.playing).length > 0;
-  //obtenemos el id 
-  useEffect(() => {
+  //obtenemos el id
+  useLayoutEffect(() => {
     props.getVideoSource(id);
   }, []);
 
@@ -28,7 +29,7 @@ const Player = (props) => {
   ) :
     (
       <NotFound />
-      /*<Redirect to='/404/' />*/
+      /* <Redirect to='/404/' />*/
     );
 };
 
